@@ -145,8 +145,8 @@ export default {
     },
 
     editCustomProperties(index) {
+      this.customPropertiesImageIndex = index;
       this.$emit('edit-custom-properties', index);
-      // this.customPropertiesImageIndex = index;
     },
 
     onCroppedImage(image) {
