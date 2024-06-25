@@ -17,7 +17,8 @@
         <scissors-icon brand="var(--colors-black)" view-box="0 0 20 20" width="16" height="16"/>
       </a>
     </div>
-    <img :src="src" :alt="image.name" ref="image" class="gallery-image">
+    <video v-if="isVideo(src)" :src="src" :alt="image.name" ref="image" class="gallery-image"></video>
+    <img v-else :src="src" :alt="image.name" ref="image" class="gallery-image">
     <div v-if="field.showStatistics" class="statistics my-1">
       <div v-if="size" class="size"><strong>{{ size }}</strong></div>
       <div class="dimensions"><strong>{{ width }}×{{ height }}</strong> px</div>
@@ -68,6 +69,16 @@
       }
     },
     methods: {
+      //isVideo
+      isVideos(src){
+        if (src.startsWith("data:video"))
+          return true;
+        //TODO better video detection
+        const supportedExtensions = [".mp4", ".ogv", ".webm"];
+        return supportedExtensions.some((suffix) => {
+          return src.endsWith(suffix)
+        });
+      },
       showPreview() {
         const blobUrl = this.image.file ? URL.createObjectURL(this.image.file) : this.image.__media_urls__.preview;
         window.open(blobUrl, '_blank');
